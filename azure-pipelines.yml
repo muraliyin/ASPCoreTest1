@@ -72,25 +72,25 @@ stages:
         pool:
           vmImage: "windows-2022"
 
-        steps:
-  - task: AzureFileCopy@4
-    inputs:
-      SourcePath: "https://github.com/muraliyin/ASPCoreTest1"
-      azureSubscription: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
-      Destination: "AzureBlob"
-      storage: "demostorage"
-      ContainerName: "projecttemplates"
-    name: AzureFileCopy
-  - task: AzureResourceManagerTemplateDeployment@3
-    inputs:
-      deploymentScope: "Resource Group"
-      azureResourceManagerConnection: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
-      subscriptionId: "11996179-9a34-404c-8696-13d52e497762"
-      action: "Create Or Update Resource Group"
-      resourceGroupName: "demogroup123"
-      location: "West US"
-      templateLocation: "https://github.com/muraliyin/ASPCoreTest1"
-      csmFileLink: "https://github.com/muraliyin/ASPCoreTest1/blob/master/azuredeploy.json"
-      csmParametersFileLink: "https://github.com/muraliyin/ASPCoreTest1/blob/master/azuredeploy.parameters.json"
-      deploymentMode: "Incremental"
-      deploymentName: "deploy1"
+    steps:
+    - task: AzureFileCopy@4
+      inputs:
+        SourcePath: "https://github.com/muraliyin/ASPCoreTest1"
+        azureSubscription: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
+        Destination: "AzureBlob"
+        storage: "demostorage"
+        ContainerName: "projecttemplates"
+      name: AzureFileCopy
+    - task: AzureResourceManagerTemplateDeployment@3
+      inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
+        subscriptionId: "11996179-9a34-404c-8696-13d52e497762"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "demogroup123"
+        location: "West US"
+        templateLocation: "https://github.com/muraliyin/ASPCoreTest1"
+        csmFileLink: "https://github.com/muraliyin/ASPCoreTest1/blob/master/azuredeploy.json"
+        csmParametersFileLink: "https://github.com/muraliyin/ASPCoreTest1/blob/master/azuredeploy.parameters.json"
+        deploymentMode: "Incremental"
+        deploymentName: "deploy1"
