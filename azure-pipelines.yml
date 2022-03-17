@@ -49,9 +49,31 @@ steps:
     publishLocation: 'Container'
 
 #Publish it to the Azure App Service
-- task: AzureWebApp@1
+# - task: AzureWebApp@1
+#   inputs:
+#     appType: webAppLinux
+#     azureSubscription: 'Free Trial (11996179-9a34-404c-8696-13d52e497762)' #this is the name of the SPN
+#     appName: 'core444' #App Service's unique name
+#     package: $(Build.ArtifactStagingDirectory)/**/*.zip    
+
+- task: AzureFileCopy@4
   inputs:
-    appType: webAppLinux
-    azureSubscription: 'Free Trial (11996179-9a34-404c-8696-13d52e497762)' #this is the name of the SPN
-    appName: 'core444' #App Service's unique name
-    package: $(Build.ArtifactStagingDirectory)/**/*.zip    
+    SourcePath: 'templates'
+    azureSubscription: 'copy-connection'
+    Destination: 'AzureBlob'
+    storage: 'demostorage'
+    ContainerName: 'projecttemplates'
+  name: AzureFileCopy
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'copy-connection'
+    subscriptionId: '11996179-9a34-404c-8696-13d52e497762'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'demogroup'
+    location: 'West US'
+    templateLocation: 'URL of the file'
+    csmFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.json$(AzureFileCopy.StorageContainerSasToken)'
+    csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
+    deploymentMode: 'Incremental'
+    deploymentName: 'deploy1'

@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2020-12-01",
+            "name": "aspcoredemoplan",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "F1",
+                "capacity": 1
+            },
+            "tags": {
+                "displayName": "aspcoredemoplan"
+            },
+            "properties": {
+                "name": "aspcoredemoplan"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2020-12-01",
+            "name": "aspcoredemo2612",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/aspcoredemoplan')]": "Resource",
+                "displayName": "aspcoredemo2612"
+            },
+            "dependsOn": [
+                "Microsoft.Web/serverfarms/aspcoredemoplan"
+            ],
+            "properties": {
+                "name": "aspcoredemo2612",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', 'aspcoredemoplan')]"
+            }
+        }
+    ],
+    "outputs": {}
+}
