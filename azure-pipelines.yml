@@ -85,10 +85,7 @@ stages:
         - task: AzureFileCopy@4
           inputs:
             SourcePath: "https://github.com/muraliyin/ASPCoreTest1"
-            azureSubscription: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
-            Destination: "AzureBlob"
-            storage: "F1"
-            ContainerName: "projecttemplates"
+            azureSubscription: "Free Trial (11996179-9a34-404c-8696-13d52e497762)" 
           name: AzureFileCopy
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
