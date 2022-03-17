@@ -65,6 +65,15 @@ stages:
   - stage: Dev_Stage
     displayName: Create & Deploy to Dev
     dependsOn: Build_Stage
+    variables:
+      azureSubscription: 'Free Trial (11996179-9a34-404c-8696-13d52e497762)' # couldn't be referenced
+      ResourceGroupName: '$(Prefix)-$(Release.EnvironmentName)-$(UniqueId)-RG' 
+      WebApplication13Name: '$(Prefix)-$(Release.EnvironmentName)-$(UniqueId)'
+      WebApplication13NameUrl: 'https://$(WebApplication13Name).azurewebsites.net/' 
+      Prefix: 'tunis'
+      Release.EnvironmentName: 'dev'
+      UniqueId: '1280' #'$(Build.BuildId)'
+      hostingPlanName: 'Free-Tier'
 
     jobs:
       - job: Create_DEV
@@ -78,7 +87,7 @@ stages:
             SourcePath: "https://github.com/muraliyin/ASPCoreTest1"
             azureSubscription: "Free Trial (11996179-9a34-404c-8696-13d52e497762)"
             Destination: "AzureBlob"
-            storage: "demostorage"
+            storage: "F1"
             ContainerName: "projecttemplates"
           name: AzureFileCopy
         - task: AzureResourceManagerTemplateDeployment@3
